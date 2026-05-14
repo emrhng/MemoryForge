@@ -29,7 +29,7 @@ namespace MemoryForge
     
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
             GCSentinel sentinel = new GCSentinel();
             List<Araba> galeri = new List<Araba>();
