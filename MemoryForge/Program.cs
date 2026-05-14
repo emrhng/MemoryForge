@@ -2,14 +2,14 @@
 
 namespace MemoryForge
 {
-    class Araba
+    class Car
     {
         public string Model;
-        public string Renk;
-        public Araba(string model, string renk)
+        public string Color;
+        public Car(string model, string renk)
         {
             this.Model = model;
-            this.Renk = renk;
+            this.Color = renk;
         }
     }
     public class GCSentinel
@@ -17,13 +17,13 @@ namespace MemoryForge
         public void ReportMemory()
         {
             long totalMemory = GC.GetTotalMemory(false);
-            Console.WriteLine($"[MemoryWatch] Şu anki RAM Kullanımı: {totalMemory / 1024.0 / 1024.0:F2} MB");
+            Console.WriteLine($"[MemoryWatch] Current RAM Usage: {totalMemory / 1024.0 / 1024.0:F2} MB");
         }
 
         public void CheckGenerations(object obj)
         {
             int gen = GC.GetGeneration(obj);
-            Console.WriteLine($"[GenTracker] Bu nesne şu an Gen {gen} içerisinde yaşıyor.");
+            Console.WriteLine($"[GenTracker] This object currently resides in Gen {gen}.");
         }
     }
     
@@ -32,13 +32,13 @@ namespace MemoryForge
         static void Main(string[] args) 
         {
             GCSentinel sentinel = new GCSentinel();
-            List<Araba> galeri = new List<Araba>();
+            List<Car> gallery = new List<Car>();
 
-            Console.WriteLine("--- Stres Testi Başlıyor ---");
+            Console.WriteLine("--- Stress Test is Running ---");
             sentinel.ReportMemory();
             for (int i = 0; i < 100000; i++)
             {
-                galeri.Add(new Araba("Kırmızı", $"Model {i}"));
+                gallery.Add(new Car("Red", $"Model {i}"));
                 
                 if (i % 10000 == 0)
                 {
@@ -46,17 +46,17 @@ namespace MemoryForge
                 }
             }
 
-            Console.WriteLine("\nNesneler Oluşturuldu");
+            Console.WriteLine("\n Object Creating");
             sentinel.ReportMemory();
-            sentinel.CheckGenerations(galeri[0]);
+            sentinel.CheckGenerations(gallery[0]);
             
-            Console.WriteLine("\nListe Boşaltılıyor ve Temizlik Başlıyor");
-            galeri.Clear(); 
-            galeri = null;
+            Console.WriteLine("\n List is being cleared and the cleanup is beginning");
+            gallery.Clear(); 
+            gallery = null;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             sentinel.ReportMemory();
-            Console.WriteLine("Test Bitti");
+            Console.WriteLine("Test over");
             
             Console.ReadLine();
         }
