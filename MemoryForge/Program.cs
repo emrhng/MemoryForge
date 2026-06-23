@@ -34,7 +34,7 @@ namespace MemoryForge
             GCSentinel sentinel = new GCSentinel();
             List<Car> gallery = new List<Car>();
 
-            Console.WriteLine("--- Stress Test is Running ---");
+            Console.WriteLine("--- Stress Test Çalıştırılıyor ---");
             sentinel.ReportMemory();
             for (int i = 0; i < 100000; i++)
             {
@@ -50,13 +50,13 @@ namespace MemoryForge
             sentinel.ReportMemory();
             sentinel.CheckGenerations(gallery[0]);
             
-            Console.WriteLine("\n List is being cleared and the cleanup is beginning");
+            Console.WriteLine("\n Liste temizleniyor");
             gallery.Clear(); 
             gallery = null;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             sentinel.ReportMemory();
-            Console.WriteLine("Test over");
+            Console.WriteLine("Test bitti");
             
             Console.ReadLine();
         }
